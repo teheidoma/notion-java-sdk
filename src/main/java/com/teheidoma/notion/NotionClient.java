@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.teheidoma.notion.dto.NotionDatabase;
 import com.teheidoma.notion.dto.block.NotionBlockResponse;
 import com.teheidoma.notion.dto.page.NotionPage;
+import com.teheidoma.notion.dto.property.NotionProperties;
 import com.teheidoma.notion.dto.property.NotionProperty;
 import com.teheidoma.notion.dto.query.NotionQueryResult;
 import com.teheidoma.notion.http.JavaNetNotionHttpClient;
@@ -55,8 +56,8 @@ public class NotionClient {
         return notionHttpClient.patch("/pages/" + id, Map.of("properties", properties), NotionPage.class);
     }
 
-    public NotionProperty getPageProperty(String pageId, String propertyId) {
-        return notionHttpClient.get(String.format("/pages/%s/properties/%s", pageId, propertyId), NotionProperty.class);
+    public <T extends NotionProperty> T getPageProperty(String pageId, String propertyId, Class<T> clazz) {
+        return notionHttpClient.get(String.format("/pages/%s/properties/%s", pageId, propertyId), clazz);
     }
 
     public NotionBlockResponse getBlocks(String parentId) {

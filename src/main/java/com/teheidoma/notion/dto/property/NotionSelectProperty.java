@@ -1,6 +1,9 @@
 package com.teheidoma.notion.dto.property;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Singular;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -9,7 +12,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @SuperBuilder
-public class NotionMultiselectProperty extends NotionProperty {
-    @Singular("multiSelect")
-    private List<Option> multiSelect;
+public class NotionSelectProperty extends NotionProperty {
+    private Option select;
 }

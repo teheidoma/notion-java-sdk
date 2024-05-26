@@ -41,19 +41,4 @@ public class NotionStatusProperty extends NotionProperty {
                     .build();
         }
     }
-
-    @Data
-    @SuperBuilder
-    public static class Option {
-        private String id;
-        private String name;
-        private String color;
-        private String description;
-
-        public static Option fromString(String option) {
-            return Option.builder()
-                    .name(option)
-                    .build();
-        }
-    }
 }

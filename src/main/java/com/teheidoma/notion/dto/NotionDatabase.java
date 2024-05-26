@@ -3,6 +3,7 @@ package com.teheidoma.notion.dto;
 import com.teheidoma.notion.dto.page.NotionPage;
 import com.teheidoma.notion.dto.parent.NotionParent;
 import com.teheidoma.notion.dto.parent.NotionParentDatabase;
+import com.teheidoma.notion.dto.property.NotionProperties;
 import com.teheidoma.notion.dto.property.NotionProperty;
 import com.teheidoma.notion.dto.query.NotionQueryResult;
 import com.teheidoma.notion.dto.user.NotionUser;
@@ -11,7 +12,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -23,7 +23,7 @@ public class NotionDatabase extends NotionBaseDTO {
     private String icon;
     private Timestamp createdTime;
     private NotionUser createdBy;
-    private Map<String, NotionProperty> properties;
+    private NotionProperties properties;
     private NotionParent parent;
 
 

@@ -26,7 +26,6 @@ public class NotionSubscriber {
         return Flux.interval(Duration.ZERO, Duration.ofSeconds(5))
                 .flatMap(secs -> Flux.fromIterable(notionClient.query(databaseId, null).getResults()))
                 .filter(page -> !ids.contains(page.getId()))
-                .log()
                 .doOnNext(page -> ids.add(page.getId()));
     }
 
@@ -36,7 +35,7 @@ public class NotionSubscriber {
         init.getResults().forEach(page -> {
             getProperties(page, properties).forEach(property -> savedProperties.computeIfAbsent(property.getPageId(), k -> new ArrayList<>()).add(property));
         });
-        log.info("registered properties {}", savedProperties);
+        log.debug("registered properties {}", savedProperties);
         return Flux.interval(Duration.ZERO, Duration.ofSeconds(5))
                 .flatMap(secs -> Flux.fromIterable(notionClient.query(databaseId, null).getResults()))
                 .flatMap(page -> Flux.fromIterable(Stream.of(properties)
@@ -60,7 +59,7 @@ public class NotionSubscriber {
                             p.setValue(property.getValue());
                             p.setOldValue(oldValue);
                         });
-                        log.info("changed property {}", property.getName());
+                        log.debug("changed property {}", property.getName());
                         return propertyOptional.get();
                     }
                     return null;
@@ -106,7 +105,7 @@ public class NotionSubscriber {
         }
 
         public <T> T getOldValueAs(Class<T> clazz) {
-            return clazz.cast(value);
+            return clazz.cast(oldValue);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.teheidoma.notion.dto.page;
 import com.teheidoma.notion.dto.NotionBaseDTO;
 import com.teheidoma.notion.dto.block.NotionBlock;
 import com.teheidoma.notion.dto.parent.NotionParent;
+import com.teheidoma.notion.dto.property.NotionProperties;
 import com.teheidoma.notion.dto.property.NotionProperty;
 import lombok.Singular;
 import lombok.experimental.SuperBuilder;
@@ -20,8 +21,7 @@ public class NotionPage extends NotionBaseDTO {
     private Timestamp createdTime;
     private Timestamp lastEditedTime;
     private NotionParent parent;
-    @Singular("property")
-    private Map<String, NotionProperty> properties;
+    private NotionProperties properties;
 
     public NotionPage updateProperties(Map<String, NotionProperty> properties) {
         return getNotionClient().updatePageProperty(getId(), properties);
@@ -38,6 +38,7 @@ public class NotionPage extends NotionBaseDTO {
 
     public <T extends NotionProperty> T getPropertyById(String id, Class<T> propertyClass) {
         return properties.values().stream()
+                .filter(property -> property.getId().equals(id))
                 .findFirst()
                 .map(propertyClass::cast)
                 .orElseThrow();

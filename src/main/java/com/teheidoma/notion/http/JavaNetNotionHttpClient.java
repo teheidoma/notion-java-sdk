@@ -10,7 +10,9 @@ import com.teheidoma.notion.dto.block.NotionBlock;
 import com.teheidoma.notion.dto.block.json.NotionBlockDeserializer;
 import com.teheidoma.notion.dto.parent.NotionParent;
 import com.teheidoma.notion.dto.parent.json.NotionParentDeserializer;
+import com.teheidoma.notion.dto.property.NotionProperties;
 import com.teheidoma.notion.dto.property.NotionProperty;
+import com.teheidoma.notion.dto.property.json.NotionPropertiesDeserializer;
 import com.teheidoma.notion.dto.property.json.NotionPropertyDeserializer;
 import com.teheidoma.notion.dto.user.NotionUser;
 import com.teheidoma.notion.dto.user.json.NotionUserDeserializer;
@@ -28,7 +30,7 @@ import java.net.http.HttpResponse;
 @RequiredArgsConstructor
 @Slf4j
 public class JavaNetNotionHttpClient implements NotionHttpClient{
-    private final String BASE_URL = "https://api.notion.com/v1";
+    private static final String BASE_URL = "https://api.notion.com/v1";
     @Setter
     private HttpClient httpClient = HttpClient.newHttpClient();
 
@@ -37,6 +39,7 @@ public class JavaNetNotionHttpClient implements NotionHttpClient{
             .registerTypeAdapter(NotionUser.class, new NotionUserDeserializer())
             .registerTypeAdapter(NotionProperty.class, new NotionPropertyDeserializer())
             .registerTypeAdapter(NotionBlock.class, new NotionBlockDeserializer())
+            .registerTypeAdapter(NotionProperties.class, new NotionPropertiesDeserializer())
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .create();
 
@@ -66,7 +69,6 @@ public class JavaNetNotionHttpClient implements NotionHttpClient{
     }
 
     @SneakyThrows
-
     private <T> T execute(String url, Object payload, String method, Class<T> targetClass) {
         HttpRequest.BodyPublisher body;
         String json = gson.toJson(payload);

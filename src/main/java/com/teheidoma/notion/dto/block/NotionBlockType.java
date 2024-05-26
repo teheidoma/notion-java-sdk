@@ -21,6 +21,5 @@ public enum NotionBlockType {
             }
         }
         return PARAGRAPH;
-//        throw new IllegalArgumentException("No NotionPropertyType with value: " + value);
     }
 }

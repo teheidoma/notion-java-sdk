@@ -3,8 +3,6 @@ package com.teheidoma.notion.dto.block.json;
 import com.google.gson.*;
 import com.teheidoma.notion.dto.block.NotionBlock;
 import com.teheidoma.notion.dto.block.NotionBlockType;
-import com.teheidoma.notion.dto.parent.NotionParent;
-import com.teheidoma.notion.dto.parent.NotionParentType;
 
 import java.lang.reflect.Type;
 
