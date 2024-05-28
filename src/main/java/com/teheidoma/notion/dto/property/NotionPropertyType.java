@@ -13,6 +13,7 @@ public enum NotionPropertyType {
     RELATION("relation", NotionRelatonProperty.class),
     CREATED_BY("created_by", NotionCreatedByProperty.class),
     SELECT("select", NotionSelectProperty.class),
+    URL("url", NotionUrlProperty.class),
     RICH_TEXT("rich_text", NotionRichTextProperty.class);
 
     private final String type;

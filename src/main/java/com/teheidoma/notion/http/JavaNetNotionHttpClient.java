@@ -71,18 +71,26 @@ public class JavaNetNotionHttpClient implements NotionHttpClient{
     @SneakyThrows
     private <T> T execute(String url, Object payload, String method, Class<T> targetClass) {
         HttpRequest.BodyPublisher body;
-        String json = gson.toJson(payload);
         if (payload != null) {
-            body = HttpRequest.BodyPublishers.ofString(json);
+            if (payload instanceof String string) {
+                body = HttpRequest.BodyPublishers.ofString(string);
+            }else {
+                String json = gson.toJson(payload);
+                body = HttpRequest.BodyPublishers.ofString(json);
+            }
         } else {
             body = HttpRequest.BodyPublishers.noBody();
         }
         HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(BASE_URL + url)).method(method, body);
-        log.debug("{} {} \n {}", method, url, json);
+        log.debug("{} {} \n {}", method, url, payload);
         populateHeaders(builder);
         HttpRequest request = builder.build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         log.debug("response {} \n {}", url, response.body());
-        return gson.fromJson(response.body(), targetClass);
+        T result = gson.fromJson(response.body(), targetClass);
+        if (result instanceof NotionBaseDTO base) {
+            base.setNotionClient(getNotionClient());
+        }
+        return result;
     }
 }

@@ -34,11 +34,9 @@ public class NotionClient {
     }
 
     public NotionQueryResult query(String databaseId, @Nullable String query) {
-        return notionHttpClient.post("/databases/" + databaseId + "/query", query, NotionQueryResult.class);
-    }
-
-    public JsonElement queryForJson(String databaseId, @Nullable String query) {
-        return notionHttpClient.post("/databases/" + databaseId + "/query", query, JsonElement.class);
+        NotionQueryResult result = notionHttpClient.post("/databases/" + databaseId + "/query", query, NotionQueryResult.class);
+        result.getResults().forEach(page -> page.setNotionClient(this));
+        return result;
     }
 
     public NotionPage createPage(Consumer<NotionPage.NotionPageBuilder> builderSupplier) {
