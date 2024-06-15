@@ -14,6 +14,7 @@ public enum NotionPropertyType {
     CREATED_BY("created_by", NotionCreatedByProperty.class),
     SELECT("select", NotionSelectProperty.class),
     URL("url", NotionUrlProperty.class),
+    CHECK_BOX("checkbox", NotionCheckboxProperty.class),
     RICH_TEXT("rich_text", NotionRichTextProperty.class);
 
     private final String type;
